@@ -6,16 +6,40 @@
     tools:context=".fragments.LastMatchFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/SR_Last"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_lastmatch"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Spinner
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_match"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/spin_last" />
 
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/SR_Last"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_lastmatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_match" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/lastfailed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:gravity="center"
+        tools:text="Connection Failed."
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:visibility="invisible"
+        />
 
 </FrameLayout>

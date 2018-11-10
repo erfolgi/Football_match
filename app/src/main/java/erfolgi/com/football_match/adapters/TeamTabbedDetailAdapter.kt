@@ -1,23 +1,20 @@
 package erfolgi.com.football_match.adapters
 
-
-import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import erfolgi.com.football_match.R
-import erfolgi.com.football_match.fragments.LastMatchFragment
-import erfolgi.com.football_match.fragments.NextMatchFragment
+import android.util.Log
+import erfolgi.com.football_match.fragments.TeamDescFragment
+import erfolgi.com.football_match.fragments.TeamPlayerFragment
 
-class TabbedAdapter(fm: FragmentManager, private var con: Context) : FragmentPagerAdapter(fm) {
-
-    public override fun getItem(position: Int): Fragment? {
+class TeamTabbedDetailAdapter (fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    override fun getItem(position: Int): Fragment? {
         when (position) {
             0 -> {
-                return LastMatchFragment()
+                return TeamDescFragment()
             }
             1 -> {
-                return NextMatchFragment()
+                return TeamPlayerFragment()
             }
         }
         return null
@@ -29,9 +26,9 @@ class TabbedAdapter(fm: FragmentManager, private var con: Context) : FragmentPag
 
     override fun getPageTitle(position: Int): CharSequence? {
         when (position) {
-            0 -> return con.getString(R.string.last_match)
+            0 -> return "Team Overview"
 
-            1 -> return con.getString(R.string.next_match)
+            1 -> return "Team Player"
         }
         return null
     }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_margin="10dp">
+    <ImageView
+        android:id="@+id/iv_player"
+        android:src="@drawable/ic_person"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+    <TextView
+
+        android:layout_marginStart="10dp"
+        android:id="@+id/tv_player_name"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:textAlignment="textStart"
+        android:layout_height="match_parent"
+        tools:text="Ultra Athlete"
+        tools:ignore="RtlCompat"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/tv_player_role"
+
+        android:gravity="center_vertical"
+        android:layout_weight="1.5"
+        android:textAlignment="textEnd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:text="Midfielder"
+        tools:ignore="RtlCompat" />
+
+</LinearLayout>

@@ -24,7 +24,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Senin, 1 Januari 2018" />
+                tools:text="Senin, 1 Januari 2018"
+                android:textColor="@color/colorAccent"/>
+
+            <TextView
+                android:id="@+id/match_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/match_date"
+                tools:text="00:00" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -40,7 +53,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/colorAccent"/>
+
+            <TextView
+                android:id="@+id/match_league"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="2dp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="League" />
 
             <TextView
                 android:id="@+id/home_score"
@@ -57,7 +84,8 @@
                 app:layout_constraintHorizontal_bias="0.813"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="0" />
+                tools:text="0"
+                android:textColor="@color/colorPrimaryDark"/>
 
             <TextView
                 android:id="@+id/away_score"
@@ -74,7 +102,8 @@
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="0"
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryDark"/>
 
             <ImageView
                 android:id="@+id/home_image"
@@ -85,7 +114,6 @@
                 android:layout_marginTop="32dp"
                 android:src="@drawable/loading"
                 app:layout_constraintEnd_toStartOf="@+id/home_score"
-                app:layout_constraintHorizontal_bias="0.533"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,12 +139,14 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/home_score"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_image"
-                tools:text="Manchester United"
-                android:textStyle="bold"/>
+                app:layout_constraintVertical_bias="0.65"
+                tools:text="Manchester United" />
 
             <TextView
                 android:id="@+id/away_team"
@@ -124,8 +154,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -138,7 +170,14 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/goals"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            />
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -150,16 +189,9 @@
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/goals"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/away_goal"
@@ -169,12 +201,21 @@
                 android:textSize="12sp"
                 android:textAlignment="textEnd"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
         </android.support.constraint.ConstraintLayout>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"
             tools:ignore="SmallSp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/shots"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+             />
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -187,17 +228,8 @@
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="0" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/shots"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
+                tools:text="0"
+                android:textColor="@color/colorPrimary" />
             <TextView
                 android:id="@+id/away_shot"
                 android:layout_width="wrap_content"
@@ -206,7 +238,8 @@
                 android:textAlignment="textEnd"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="0" />
+                tools:text="0"
+                android:textColor="@color/colorPrimary"/>
         </android.support.constraint.ConstraintLayout>
         <Space
             android:layout_width="match_parent"
@@ -219,10 +252,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lineups"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:gravity="center"/>
-
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/goalkeeper"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"
+             />
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -234,16 +275,10 @@
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/goalkeeper"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+
 
             <TextView
                 android:id="@+id/away_gk"
@@ -253,11 +288,20 @@
                 android:textAlignment="textEnd"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary" />
         </android.support.constraint.ConstraintLayout>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/defenders"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"/>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -270,16 +314,10 @@
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/defenders"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+
 
             <TextView
 
@@ -290,11 +328,19 @@
                 android:textAlignment="textEnd"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
         </android.support.constraint.ConstraintLayout>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/midfielder"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"/>
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -306,16 +352,10 @@
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/midfielder"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+
 
             <TextView
                 android:id="@+id/away_mf"
@@ -325,11 +365,19 @@
                 android:textAlignment="textEnd"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
         </android.support.constraint.ConstraintLayout>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/foward"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"/>
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -341,16 +389,10 @@
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/foward"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+
 
             <TextView
                 android:id="@+id/away_fw"
@@ -360,11 +402,19 @@
                 android:textAlignment="textEnd"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
         </android.support.constraint.ConstraintLayout>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/substitutes"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"/>
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -376,16 +426,8 @@
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="Obama" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/substitutes"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/away_sub"
@@ -395,7 +437,8 @@
                 android:textAlignment="textEnd"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Obama" />
+                tools:text="Obama"
+                android:textColor="@color/colorPrimary"/>
         </android.support.constraint.ConstraintLayout>
         <Space
             android:layout_width="match_parent"

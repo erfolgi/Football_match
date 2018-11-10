@@ -4,14 +4,20 @@ package erfolgi.com.football_match.models
 import com.google.gson.annotations.SerializedName
 
 data class Event (
-
-
-
         @SerializedName("idEvent")
         var eventId: String? = null,
 
-        @SerializedName("strDate")
+        @SerializedName("strEvent")
+        var strEvent: String? = null,
+
+        @SerializedName("dateEvent")
         var eventDate: String? = null,
+
+        @SerializedName("strTime")
+        var eventTime: String?=null,
+
+        @SerializedName("strLeague")
+        var eventLeague: String?=null,
 
         // Home
         @SerializedName("strHomeTeam")
