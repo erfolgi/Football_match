@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FavoriteMatchFragment">
+    tools:context=".fragments.FavoriteTeamFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/SR_Fav"
+        android:id="@+id/SR_Fav_Team"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_favorite"
+            android:id="@+id/rv_favorite_team"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_match"/>

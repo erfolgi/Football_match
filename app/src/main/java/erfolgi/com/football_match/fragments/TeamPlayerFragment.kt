@@ -48,6 +48,7 @@ class TeamPlayerFragment : Fragment() {
         RV.addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
         RV.layoutManager = LinearLayoutManager(ctx)
 
+
         swipeRefresh.post {
             swipeRefresh.isRefreshing = true
             Log.e("gedebug","Refresh")
@@ -72,14 +73,14 @@ class TeamPlayerFragment : Fragment() {
 
                 if(response.isSuccessful &&response.body()!=null){
                     objek= response.body()
-                    Log.e("objek", response.toString())
-                    Log.e("objek", response.body().toString())
-                    Log.e("objek", response.errorBody().toString())
-                   items= objek?.players as MutableList<Player>
-                    Log.e("item", items!![0].strPlayer)
-                    tmdapter = PlayerListAdapter(ctx, items!!)
-                    RV.adapter = tmdapter
-                    swipeRefresh.isRefreshing = false
+                    if(objek?.players!=null){
+                        items= objek?.players as MutableList<Player>
+                        Log.e("item", items!![0].strPlayer)
+                        tmdapter = PlayerListAdapter(ctx, items!!)
+                        RV.adapter = tmdapter
+                        swipeRefresh.isRefreshing = false
+                    }
+
                 }
             }
 

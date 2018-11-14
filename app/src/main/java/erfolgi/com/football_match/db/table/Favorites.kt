@@ -1,4 +1,4 @@
-package erfolgi.com.football_match.models
+package erfolgi.com.football_match.db.table
 
 data class Favorites(val id: Long?,
                      val eventId: String?,

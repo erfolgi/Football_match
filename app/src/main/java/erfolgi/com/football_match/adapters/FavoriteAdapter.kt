@@ -10,11 +10,12 @@ import android.widget.TextView
 import erfolgi.com.football_match.R
 import erfolgi.com.football_match.activities.DetailActivity
 import erfolgi.com.football_match.models.Event
-import erfolgi.com.football_match.models.Favorites
+import erfolgi.com.football_match.db.table.Favorites
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FavoriteAdapter(private val context: Context?, private val items: List<Favorites>, private val listener: (Event) -> Unit)
+class
+FavoriteAdapter(private val context: Context?, private val items: List<Favorites>, private val listener: (Event) -> Unit)
     : RecyclerView.Adapter<FavoriteAdapter.FavHolder>(){
     lateinit var mInflater: LayoutInflater
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteAdapter.FavHolder {
@@ -33,13 +34,17 @@ class FavoriteAdapter(private val context: Context?, private val items: List<Fav
         holder.awayname.text = items[position].awayTeam
         holder.awayscore.text = items[position].awayScore
         holder.bind(context,items[position].eventId.toString())
-        val timeconvert = toGMTFormat(items[position].eventDate,items[position].eventTime)
-        val formatDate = SimpleDateFormat("E, dd MM yyyy")
-        val formatTime = SimpleDateFormat("HH:mm")
-        val date = formatDate.format(timeconvert)
-        val time = formatTime.format(timeconvert)
-        holder.datematch.text = date
-        holder.timematch.text = time
+        if (items[position].eventTime!=null){
+            val timeconvert = toGMTFormat(items[position].eventDate,items[position].eventTime)
+            val formatDate = SimpleDateFormat("E, dd MM yyyy")
+            val formatTime = SimpleDateFormat("HH:mm")
+            val date = formatDate.format(timeconvert)
+            val time = formatTime.format(timeconvert)
+            holder.datematch.text = date
+            holder.timematch.text = time
+        }else{
+            holder.datematch.text = items[position].eventDate
+        }
     }
     private fun toGMTFormat(date: String?, time: String?): Date? {
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

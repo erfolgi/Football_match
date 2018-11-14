@@ -14,6 +14,7 @@ import erfolgi.com.football_match.R.drawable.ic_fav_no
 import erfolgi.com.football_match.R.drawable.ic_fav_yes
 import erfolgi.com.football_match.api.APIClient
 import erfolgi.com.football_match.db.database
+import erfolgi.com.football_match.db.table.Favorites
 import erfolgi.com.football_match.models.*
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.db.classParser
@@ -48,6 +49,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         supportActionBar?.title = "Match Detail"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         EXTRA_ID= intent.getStringExtra(EXTRA_ID)
         favoriteState()
         apiCall = this.apiClient.service.requestDetailLast(EXTRA_ID)
@@ -146,6 +148,10 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
             R.id.add_to_favorite -> {
                 if(isFavorite){
                     removeFromFavorite()
@@ -164,8 +170,6 @@ class DetailActivity : AppCompatActivity() {
     private fun addToFavorite(){
         try {
             database.use {
-//                dropTable(TABLE_FAVORITE,false)
-//                createTable(TABLE_FAVORITE)
                 insert(Favorites.TABLE_FAVORITE,
                         Favorites.DATE to items[0].eventDate,
                         Favorites.TIME to items[0].eventTime,

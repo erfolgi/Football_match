@@ -5,14 +5,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -43,9 +43,11 @@ open class NextMatchFragment : Fragment() {
     lateinit var con: Context
     lateinit var spinner: Spinner
     var id_league="4328"
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         val view = inflater.inflate(R.layout.fragment_next_match, container, false)
         swipeRefresh=view.findViewById(R.id.SR_Next)
         RV = view.findViewById(R.id.rv_nextmatch) as RecyclerView
@@ -116,6 +118,73 @@ open class NextMatchFragment : Fragment() {
             }
         })
     }
+    fun SearchAPI(query:String){
+        items.clear()
+        apiCall = this.apiClient.service.requestSearchMatch(query)
+        apiCall.enqueue(object : Callback<JSONobject> {
+            override fun onResponse(call : Call<JSONobject>, response : Response<JSONobject> ){
+                Log.d("searcdebug",response.body().toString())
+                if(response.isSuccessful){
+                    objek= response.body()
+                    if (objek?.event!=null){
+                        nextfailed?.visibility=(View.INVISIBLE)
+                        items= objek?.event as MutableList<Event>
+                        lmadapter = NextMatchAdapter(con, items){
+                        }
+                        RV.adapter = lmadapter
+                    }
+                    swipeRefresh.isRefreshing = false
+                }
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun  onFailure(call :Call<JSONobject>, t: Throwable) {
+                //Toast.makeText(context, "Data Tidak bisa diambil"+t, Toast.LENGTH_LONG).show();
+                Log.e("gedebug",t.toString())
+                swipeRefresh.isRefreshing = false
+
+                nextfailed.visibility=(View.VISIBLE)//setvisibility(View.INVISIBLE);
+                nextfailed.text="Connection Failed."
+            }
+        })
+    }
 
 
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val mSearchMenuItem = menu.findItem(R.id.action_search)
+        searchView = mSearchMenuItem.actionView as SearchView
+
+        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, object : MenuItem.OnActionExpandListener, MenuItemCompat.OnActionExpandListener {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                items.clear()
+                LoadAPI(id_league)
+                return true  // Return true to collapse action view
+            }
+
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                // Do something when expanded
+                return true  // Return true to expand action view
+            }
+        })
+
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                items.clear()
+                swipeRefresh.isRefreshing = true
+                SearchAPI(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText!=""){
+                    items.clear()
+                    SearchAPI(newText)
+                }
+                return false
+            }
+        })
+    }
 }

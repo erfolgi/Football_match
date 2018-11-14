@@ -40,28 +40,31 @@ class NextMatchAdapter (private val context: Context, private val items: List<Ev
         holder.awayname.text = items[position].awayTeam
         holder.awayscore.text = items[position].awayScore
         holder.bind(context,items[position].eventId.toString())
-        val timeconvert = toGMTFormat(items[position].eventDate,items[position].eventTime)
-        val formatDate = SimpleDateFormat("E, dd MM yyyy")
-        val formatTime = SimpleDateFormat("HH:mm")
-        val date = formatDate.format(timeconvert)
-        val time = formatTime.format(timeconvert)
-        val formatCalDate = SimpleDateFormat("dd-MM-yyyy")
-        val caldate = formatCalDate.format(timeconvert)
+        if (items[position].eventTime!=null){
+            val timeconvert = toGMTFormat(items[position].eventDate,items[position].eventTime)
+            val formatDate = SimpleDateFormat("E, dd MM yyyy")
+            val formatTime = SimpleDateFormat("HH:mm")
+            val date = formatDate.format(timeconvert)
+            val time = formatTime.format(timeconvert)
+            holder.datematch.text = date
+            holder.timematch.text = time
+            val formatCalDate = SimpleDateFormat("dd-MM-yyyy")
+            val caldate = formatCalDate.format(timeconvert)
+            val datime= "$caldate$time"
+            holder.calendar.setOnClickListener {
+                val cal = Calendar.getInstance()
+                cal.time = SimpleDateFormat("dd-MM-yyyyhh:mm").parse(datime)
+                val intent = Intent(Intent.ACTION_EDIT)
+                intent.type = "vnd.android.cursor.item/event"
+                intent.putExtra("beginTime", cal.timeInMillis)
+                intent.putExtra("allDay", false)
+                intent.putExtra("endTime", cal.timeInMillis + 110 * 60 * 1000)
+                intent.putExtra("title", items[0].strEvent)
+                context.startActivity(intent)
+            }
 
-        val datime= "$caldate$time"
-        holder.datematch.text = date
-        holder.timematch.text = time
-
-        holder.calendar.setOnClickListener {
-            val cal = Calendar.getInstance()
-            cal.time = SimpleDateFormat("dd-MM-yyyyhh:mm").parse(datime)
-            val intent = Intent(Intent.ACTION_EDIT)
-            intent.type = "vnd.android.cursor.item/event"
-            intent.putExtra("beginTime", cal.timeInMillis)
-            intent.putExtra("allDay", false)
-            intent.putExtra("endTime", cal.timeInMillis + 110 * 60 * 1000)
-            intent.putExtra("title", items[0].strEvent)
-            context.startActivity(intent)
+        }else{
+            holder.datematch.text = items[position].eventDate
         }
     }
     private fun toGMTFormat(date: String?, time: String?): Date? {

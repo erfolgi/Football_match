@@ -5,14 +5,14 @@ import android.annotation.SuppressLint
 import android.support.v4.app.Fragment
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -48,10 +48,12 @@ class TeamFragment : Fragment() {
 //    lateinit var con: Context
     lateinit var spinner: Spinner
     var id_league="English Premier League"
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true)
         val view= inflater.inflate(R.layout.fragment_team, container, false)
         swipeRefresh=view.findViewById(R.id.SR_Team)
         RV = view.findViewById(R.id.rv_team) as RecyclerView
@@ -59,7 +61,7 @@ class TeamFragment : Fragment() {
         RV.layoutManager = LinearLayoutManager(ctx)
         //con= context as Context
         spinner=view.findViewById(R.id.spin_team)
-        //val spinnerID = resources.getStringArray(R.array.leagueID)
+        spinner.visibility= View.VISIBLE
 
         val spinnerItems = resources.getStringArray(R.array.league)
         val spinnerAdapter = ArrayAdapter(ctx, android.R.layout.simple_spinner_dropdown_item, spinnerItems)
@@ -92,12 +94,14 @@ class TeamFragment : Fragment() {
             LoadAPI(id_league)
             items.clear()
         }
+
+
         return view
     }
 
     private fun LoadAPI(id:String){
         Log.e("gedebug","Load")
-
+        spinner.visibility= View.VISIBLE
         apiCall = this.apiClient.service.requestTeamByLeague(id)
         apiCall.enqueue(object : Callback<TeamObject> {
 
@@ -126,5 +130,82 @@ class TeamFragment : Fragment() {
         })
 
     }
+    fun SearchAPI(query:String){
+        spinner.visibility= View.INVISIBLE
+        items.clear()
+        apiCall = this.apiClient.service.requestSearchTeam(query)
+        apiCall.enqueue(object : Callback<TeamObject> {
+            override fun onResponse(call : Call<TeamObject>, response : Response<TeamObject> ){
+                Log.d("gedebug",response.body().toString())
+                if(response.isSuccessful){
+                    objek= response.body()
+                    if (objek?.teams!=null){
+                        teamfailed?.visibility=(View.INVISIBLE)
+                        items= objek?.teams as MutableList<Team>
+                        tmdapter = TeamAdapter(ctx, items)
+                        RV.adapter =tmdapter
+                    }
+                    swipeRefresh.isRefreshing = false
+                }
+            }
 
+            @SuppressLint("SetTextI18n")
+            override fun  onFailure(call :Call<TeamObject>, t: Throwable) {
+                //Toast.makeText(context, "Data Tidak bisa diambil"+t, Toast.LENGTH_LONG).show();
+                Log.e("gedebug",t.toString())
+                swipeRefresh.isRefreshing = false
+
+                teamfailed.visibility=(View.VISIBLE)//setvisibility(View.INVISIBLE);
+                teamfailed.text="Connection Failed."
+            }
+        })
+    }
+
+
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val mSearchMenuItem = menu.findItem(R.id.action_search)
+        searchView = mSearchMenuItem.actionView as SearchView
+
+        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, object : MenuItem.OnActionExpandListener, MenuItemCompat.OnActionExpandListener {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                Log.d("close magma","Ini bola")
+                items.clear()
+                LoadAPI(id_league)
+                Log.d("close magma","Ini budi")
+                return true  // Return true to collapse action view
+            }
+
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                // Do something when expanded
+                return true  // Return true to expand action view
+            }
+        })
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query!=""){
+                    swipeRefresh.isRefreshing = true
+                    SearchAPI(query)
+                }else{
+                    items.clear()
+                    LoadAPI(id_league)
+                }
+
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                if (newText!=""){
+                    items.clear()
+                    SearchAPI(newText)
+                }else{
+                    items.clear()
+                    LoadAPI(id_league)
+                }
+                return false
+            }
+        })
+    }
 }

@@ -5,14 +5,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -28,6 +26,13 @@ import org.jetbrains.anko.support.v4.ctx
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.support.v4.view.MenuItemCompat.getActionView
+
+import android.support.v7.widget.SearchView
+import android.view.*
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+
 
 class LastMatchFragment : Fragment() {
     private val apiClient = APIClient()
@@ -40,10 +45,11 @@ class LastMatchFragment : Fragment() {
     lateinit var con: Context
     lateinit var spinner:Spinner
     var id_league="4328"
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+        setHasOptionsMenu(true)
         val view = inflater.inflate(R.layout.fragment_last_match, container, false)
         swipeRefresh=view.findViewById(R.id.SR_Last)
         RV = view.findViewById(R.id.rv_lastmatch) as RecyclerView
@@ -51,6 +57,8 @@ class LastMatchFragment : Fragment() {
         RV.layoutManager = LinearLayoutManager(context)
         con= context as Context
         spinner=view.findViewById(R.id.spin_last)
+        spinner.visibility=VISIBLE
+
         val spinnerID = resources.getStringArray(R.array.leagueID)
 
         val spinnerItems = resources.getStringArray(R.array.league)
@@ -84,6 +92,9 @@ class LastMatchFragment : Fragment() {
            LoadAPI(id_league)
             items.clear()
         }
+
+
+
         return view
     }
      private fun LoadAPI(id:String){
@@ -121,5 +132,84 @@ class LastMatchFragment : Fragment() {
         activity?.contentView?.bottom_navigation?.isEnabled=true
     }
 
+    fun SearchAPI(query:String){
+        spinner.visibility=INVISIBLE
+        items.clear()
+        apiCall = this.apiClient.service.requestSearchMatch(query)
+        apiCall.enqueue(object : Callback<JSONobject> {
+            override fun onResponse(call : Call<JSONobject>, response : Response<JSONobject> ){
+                Log.d("gedebug",response.body().toString())
+                if(response.isSuccessful){
+                    objek= response.body()
+                    if (objek?.event!=null){
+                        lastfailed?.visibility=(View.INVISIBLE)
+                        items= objek?.event as MutableList<Event>
+                        lmadapter = LastMatchAdapter(con, items){
+                        }
+                        RV.adapter = lmadapter
+                    }
+                    swipeRefresh.isRefreshing = false
+                }
+            }
 
+            @SuppressLint("SetTextI18n")
+            override fun  onFailure(call :Call<JSONobject>, t: Throwable) {
+                //Toast.makeText(context, "Data Tidak bisa diambil"+t, Toast.LENGTH_LONG).show();
+                Log.e("gedebug",t.toString())
+                swipeRefresh.isRefreshing = false
+
+                lastfailed.visibility=(View.VISIBLE)//setvisibility(View.INVISIBLE);
+                lastfailed.text="Connection Failed."
+            }
+        })
+    }
+
+
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val mSearchMenuItem = menu.findItem(R.id.action_search)
+        searchView = mSearchMenuItem.actionView as SearchView
+
+        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, object : MenuItem.OnActionExpandListener, MenuItemCompat.OnActionExpandListener {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                items.clear()
+                spinner.visibility=VISIBLE
+                LoadAPI(id_league)
+                return true  // Return true to collapse action view
+            }
+
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                // Do something when expanded
+                return true  // Return true to expand action view
+            }
+        })
+
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if(query!=""){
+                    swipeRefresh.isRefreshing = true
+                    SearchAPI(query)
+                }else{
+                    spinner.visibility=VISIBLE
+                    LoadAPI(id_league)
+                }
+
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                if (newText!=""){
+                    items.clear()
+                    SearchAPI(newText)
+                }else{
+                    spinner.visibility=VISIBLE
+                    LoadAPI(id_league)
+                }
+                return false
+            }
+        })
+    }
 }

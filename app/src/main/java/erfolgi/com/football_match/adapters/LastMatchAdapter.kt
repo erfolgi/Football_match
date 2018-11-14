@@ -37,13 +37,18 @@ class LastMatchAdapter (private val context: Context, private val items: List<Ev
         holder.awayname.text = items[position].awayTeam
         holder.awayscore.text = items[position].awayScore
         holder.bind(context,items[position].eventId.toString())
-        val timeconvert = toGMTFormat(items[position].eventDate,items[position].eventTime)
-        val formatDate = SimpleDateFormat("E, dd MM yyyy")
-        val formatTime = SimpleDateFormat("HH:mm")
-        val date = formatDate.format(timeconvert)
-        val time = formatTime.format(timeconvert)
-        holder.datematch.text = date
-        holder.timematch.text = time
+        if (items[position].eventTime!=null){
+            val timeconvert = toGMTFormat(items[position].eventDate,items[position].eventTime)
+            val formatDate = SimpleDateFormat("E, dd MM yyyy")
+            val formatTime = SimpleDateFormat("HH:mm")
+            val date = formatDate.format(timeconvert)
+            val time = formatTime.format(timeconvert)
+            holder.datematch.text = date
+            holder.timematch.text = time
+        }else{
+            holder.datematch.text = items[position].eventDate
+        }
+
     }
     private fun toGMTFormat(date: String?, time: String?): Date? {
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

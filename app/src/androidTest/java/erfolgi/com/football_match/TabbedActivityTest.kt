@@ -19,45 +19,91 @@ class TabbedActivityTest {
     @JvmField var activityRule = ActivityTestRule(TabbedActivity::class.java)
     @Test
     fun testAppBehaviour() {
-        //Last Match: Buka match Everton, add favorite
-        Thread.sleep(3000)
-        Espresso.onView(ViewMatchers.withText("Everton")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("Everton")).perform(ViewActions.click())
+        //Last Match:  add favorite
         Thread.sleep(2000)
+        Espresso.onView(ViewMatchers.withText("Man United")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Man United")).perform(ViewActions.click())
+        Thread.sleep(1000)
         Espresso.onView(ViewMatchers.withId(add_to_favorite))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(add_to_favorite)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.pressBack()
+        Thread.sleep(1000)
+
+
+        //Next Match: buka match
+        Espresso.onView(ViewMatchers.withId(bottom_navigation))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("NEXT MATCH")).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(ViewMatchers.withText("Tottenham")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Tottenham")).perform(ViewActions.click())
         Thread.sleep(2000)
         Espresso.pressBack()
-        Thread.sleep(2000)
-
-
-        //Next Match: buka match Fulham
+        Thread.sleep(1000)
+        ////////////// TEAM: add favorite
         Espresso.onView(ViewMatchers.withId(bottom_navigation))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(team_)).perform(ViewActions.click())
-        Thread.sleep(2000)
-        Espresso.onView(ViewMatchers.withText("Fulham")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("Fulham")).perform(ViewActions.click())
-        Thread.sleep(3000)
-        Espresso.pressBack()
-        Thread.sleep(2000)
-
-        //Favorite: Buka match Everton, remove favorite
-        Espresso.onView(ViewMatchers.withId(bottom_navigation))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(favorites)).perform(ViewActions.click())
-        Thread.sleep(2000)
-
-        Espresso.onView(ViewMatchers.withText("Everton")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("Everton")).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(ViewMatchers.withText("Chelsea")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Chelsea")).perform(ViewActions.click())
         Thread.sleep(2000)
         Espresso.onView(ViewMatchers.withId(add_to_favorite))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(add_to_favorite)).perform(ViewActions.click())
-        Thread.sleep(2000)
+        Thread.sleep(1000)
+        Espresso.onView(ViewMatchers.withText("TEAM PLAYER")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("TEAM PLAYER")).perform(ViewActions.click())
+        Thread.sleep(1000)
+        ////////////// Player: add favorite
+        Espresso.onView(ViewMatchers.withText("Antonio Rudiger")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Antonio Rudiger")).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(ViewMatchers.withId(add_to_favorite))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(add_to_favorite)).perform(ViewActions.click())
+        Thread.sleep(1000)
         Espresso.pressBack()
-        Thread.sleep(2000)
+        Espresso.pressBack()
+        Thread.sleep(1000)
+
+        /////////Favorite: remove favorite
+        Espresso.onView(ViewMatchers.withId(bottom_navigation))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(favorites)).perform(ViewActions.click())
+        Thread.sleep(1000)
+
+        Espresso.onView(ViewMatchers.withText("Man United")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Man United")).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.onView(ViewMatchers.withId(add_to_favorite))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(add_to_favorite)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.pressBack()
+        Thread.sleep(1000)
+        Espresso.onView(ViewMatchers.withText("TEAM")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("TEAM")).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withText("Chelsea")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Chelsea")).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(add_to_favorite))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(add_to_favorite)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.pressBack()
+        Espresso.onView(ViewMatchers.withText("PLAYER")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("PLAYER")).perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withText("Antonio Rudiger")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("Antonio Rudiger")).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(add_to_favorite))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(add_to_favorite)).perform(ViewActions.click())
+        Thread.sleep(1000)
+        Espresso.pressBack()
     }
 
 }

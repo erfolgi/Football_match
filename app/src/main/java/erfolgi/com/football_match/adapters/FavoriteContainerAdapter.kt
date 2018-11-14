@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import erfolgi.com.football_match.fragments.FavoriteMatchFragment
+import erfolgi.com.football_match.fragments.FavoritePlayerFragment
+import erfolgi.com.football_match.fragments.FavoriteTeamFragment
 import erfolgi.com.football_match.fragments.NextMatchFragment
 
 class FavoriteContainerAdapter (fm: FragmentManager) : FragmentPagerAdapter(fm){
@@ -13,7 +15,10 @@ class FavoriteContainerAdapter (fm: FragmentManager) : FragmentPagerAdapter(fm){
                 return FavoriteMatchFragment()
             }
             1 -> {
-                return NextMatchFragment()
+                return FavoriteTeamFragment()
+            }
+            2 -> {
+                return FavoritePlayerFragment()
             }
         }
         return null
@@ -28,11 +33,13 @@ class FavoriteContainerAdapter (fm: FragmentManager) : FragmentPagerAdapter(fm){
             0 -> return "Match"
 
             1 -> return "Team"
+
+            2 -> return "Player"
         }
         return null
     }
 
     companion object {
-        private val FRAGMENT_COUNT = 2
+        private val FRAGMENT_COUNT = 3
     }
 }

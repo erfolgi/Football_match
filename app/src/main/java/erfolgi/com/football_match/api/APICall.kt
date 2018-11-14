@@ -42,7 +42,7 @@ interface APICall {
     fun requestSearchTeam(@Query("t") t: String): Call<TeamObject>
 
     @GET("searchevents.php")//searchevents.php?e=chel&s=1617
-    fun requestSearchMatch(@Query("e") t: String,@Query("e" ) s: String ="1617"): Call<TeamObject>
+    fun requestSearchMatch(@Query("e") t: String,@Query("s" ) s: String ="1617"): Call<JSONobject>
 
 
 
